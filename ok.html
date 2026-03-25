@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bách Khoa Toàn Thư - Dự Án Đấu Giá Java</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --primary: #2563eb;
+            --role1: #dc2626; /* Red - Backend */
+            --role2: #0284c7; /* Blue - Network */
+            --role3: #16a34a; /* Green - UI */
+            --role4: #9333ea; /* Purple - DB */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); line-height: 1.7; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        
+        .header { text-align: center; margin-bottom: 50px; padding-bottom: 20px; border-bottom: 2px dashed var(--border-color); }
+        .header h1 { font-size: 2.5rem; color: #0f172a; margin-bottom: 10px; text-transform: uppercase; }
+        .header p { font-size: 1.1rem; color: var(--text-muted); }
+
+        .toc { background: #f1f5f9; padding: 20px; border-radius: 8px; margin-bottom: 40px; }
+        .toc h3 { margin-bottom: 10px; color: #0f172a; }
+        .toc ul { list-style: none; padding-left: 10px; }
+        .toc ul li { margin-bottom: 8px; }
+        .toc ul li a { text-decoration: none; color: var(--primary); font-weight: 500; }
+        .toc ul li a:hover { text-decoration: underline; }
+
+        .role-section { margin-bottom: 60px; padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); position: relative; overflow: hidden; }
+        .role-section::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; }
+        .role-1::before { background: var(--role1); }
+        .role-2::before { background: var(--role2); }
+        .role-3::before { background: var(--role3); }
+        .role-4::before { background: var(--role4); }
+
+        .role-title { font-size: 2rem; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; }
+        .role-1 .role-title { color: var(--role1); }
+        .role-2 .role-title { color: var(--role2); }
+        .role-3 .role-title { color: var(--role3); }
+        .role-4 .role-title { color: var(--role4); }
+
+        .subtitle { font-weight: 600; font-size: 1.2rem; margin: 25px 0 15px; color: #334155; padding-bottom: 5px; border-bottom: 1px solid #e2e8f0; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        .box { background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .box h4 { margin-bottom: 10px; color: #0f172a; display: flex; align-items: center; gap: 8px; }
+        
+        ul.detail-list { padding-left: 20px; }
+        ul.detail-list li { margin-bottom: 12px; }
+        ul.detail-list li strong { color: #0f172a; }
+
+        .keyword { display: inline-block; background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 4px; font-family: monospace; font-size: 0.9em; margin-top: 5px;}
+        
+        .code-snippet { background: #1e293b; color: #a6accd; padding: 15px; border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; overflow-x: auto; margin-top: 10px; margin-bottom: 10px;}
+        .code-snippet span.keyword-java { color: #c792ea; }
+        .code-snippet span.class-java { color: #ffcb6b; }
+        .code-snippet span.string-java { color: #c3e88d; }
+
+        .warning-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px 20px; margin-top: 20px; border-radius: 0 8px 8px 0; }
+        .warning-box h4 { color: #d97706; margin-bottom: 5px; }
+
+        .integration-step { background: #f1f5f9; border-left: 4px solid var(--primary); padding: 20px; margin-bottom: 20px; border-radius: 0 8px 8px 0; }
+        .integration-step h4 { color: var(--primary); font-size: 1.2rem; margin-bottom: 10px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Bách Khoa Toàn Thư: Hệ Thống Đấu Giá</h1>
+        <p>Hướng dẫn chi tiết "cầm tay chỉ việc" cho từng thành viên từ Zero đến Hero</p>
+    </div>
+
+    <div class="toc">
+        <h3>Mục lục truy cập nhanh:</h3>
+        <ul>
+            <li><a href="#member1">👤 Thành viên 1: Kiến trúc sư Logic & Đa luồng (Backend Core)</a></li>
+            <li><a href="#member2">🌐 Thành viên 2: Kỹ sư Mạng & Máy chủ (Networking Server)</a></li>
+            <li><a href="#member3">🎨 Thành viên 3: Chuyên gia Giao diện (JavaFX Client)</a></li>
+            <li><a href="#member4">🗄️ Thành viên 4: Quản trị Dữ liệu & Biểu đồ (DB & Chart)</a></li>
+            <li><a href="#integration">🔗 Giai đoạn Ráp Nối (Toàn đội)</a></li>
+        </ul>
+    </div>
+
+    <div id="member1" class="role-section role-1">
+        <h2 class="role-title">👤 Thành viên 1: Kiến trúc sư Logic & Đa luồng</h2>
+        <p><strong>Nhiệm vụ cốt lõi:</strong> Viết bộ não cho hệ thống. Đảm bảo luật chơi đấu giá diễn ra công bằng, không bị lỗi khi hàng trăm người giành giật một món đồ.</p>
+
+        <div class="subtitle">📚 1. Giáo trình tự học (Search YouTube/Google các từ khóa này)</div>
+        <div class="grid-2">
+            <div class="box">
+                <h4>🔹 Kiến thức cơ bản</h4>
+                <ul class="detail-list">
+                    <li><strong>OOP Nâng cao:</strong> Đọc lại cách tạo Class, Getter/Setter, Constructor. <br><span class="keyword">java oop principles tutorial</span></li>
+                    <li><strong>Collections Framework:</strong> Cách dùng List, Map. <br><span class="keyword">java arraylist vs hashmap</span></li>
+                </ul>
+            </div>
+            <div class="box">
+                <h4>🔹 Kiến thức sinh tồn (Đa luồng)</h4>
+                <ul class="detail-list">
+                    <li><strong>Race Condition:</strong> Hiểu vì sao 2 người cùng trừ tiền trong tài khoản lại bị sai số. <br><span class="keyword">java race condition explained</span></li>
+                    <li><strong>Đồng bộ hóa:</strong> Cách dùng từ khóa <code>synchronized</code> và <code>ReentrantLock</code>. <br><span class="keyword">java synchronized method block</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="subtitle">🛠️ 2. Các bước code chi tiết (Cầm tay chỉ việc)</div>
+        <ul class="detail-list">
+            <li><strong>Bước 1: Tạo mô hình dữ liệu (Models).</strong> Tạo các file Java thuần: 
+                <br>- <code>User.java</code> (String username, String password, double balance).
+                <br>- <code>Item.java</code> (int id, String name, double startPrice).
+                <br>- <code>Auction.java</code> (Item item, double currentBid, String highestBidder, long endTime).
+            </li>
+            <li><strong>Bước 2: Viết class AuctionManager (Bộ não trung tâm).</strong> Áp dụng Singleton pattern để toàn hệ thống chỉ có 1 manager này. Dùng <code>ConcurrentHashMap&lt;Integer, Auction&gt;</code> để lưu danh sách các phòng đấu giá.</li>
+            <li><strong>Bước 3: Viết hàm <code>placeBid()</code> (Quan trọng nhất).</strong>
+                <div class="code-snippet">
+<span class="keyword-java">public synchronized boolean</span> placeBid(User user, <span class="keyword-java">int</span> auctionId, <span class="keyword-java">double</span> amount) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Auction auc = auctions.get(auctionId);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword-java">if</span> (auc.isEnded() || amount <= auc.getCurrentBid()) <span class="keyword-java">return false</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted">// Tính năng Anti-sniping (Gia hạn 30s)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword-java">if</span> (auc.getTimeLeft() < <span class="class-java">30000</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;auc.addExtraTime(<span class="class-java">30000</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;auc.setCurrentBid(amount);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;auc.setHighestBidder(user.getUsername());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword-java">return true</span>;<br>
+}
+                </div>
+            </li>
+            <li><strong>Bước 4 (Tính năng điểm A+): Viết hàm Auto-Bidding.</strong> Nếu User A cài giá tối đa là 10 triệu, hệ thống tự động gọi hàm đặt giá nâng lên 50k mỗi khi có người khác trả giá cao hơn, cho đến khi chạm mốc 10 triệu.</li>
+        </ul>
+
+        <div class="warning-box">
+            <h4>⚠️ Cảnh báo chết người:</h4>
+            Tuyệt đối không dùng <code>ArrayList</code> hoặc <code>HashMap</code> thông thường trong môi trường mạng nhiều người dùng. Hãy thay bằng <code>CopyOnWriteArrayList</code> và <code>ConcurrentHashMap</code> nếu không muốn bị lỗi văng app <code>ConcurrentModificationException</code>.
+        </div>
+    </div>
+
+    <div id="member2" class="role-section role-2">
+        <h2 class="role-title">🌐 Thành viên 2: Kỹ sư Mạng & Máy chủ</h2>
+        <p><strong>Nhiệm vụ cốt lõi:</strong> Viết chương trình Server chạy ngầm, mở cổng kết nối, nhận tin nhắn từ hàng chục Client gửi lên và làm "tổng đài" phát loa thông báo cho mọi người.</p>
+
+        <div class="subtitle">📚 1. Giáo trình tự học (Search YouTube/Google các từ khóa này)</div>
+        <div class="grid-2">
+            <div class="box">
+                <h4>🔹 Kiến thức kết nối mạng</h4>
+                <ul class="detail-list">
+                    <li><strong>Socket Programming:</strong> Cách tạo ServerSocket đứng đợi và Socket đi kết nối. <br><span class="keyword">java socket programming client server example</span></li>
+                    <li><strong>I/O Stream:</strong> Đọc ghi chuỗi String qua mạng. <br><span class="keyword">java BufferedReader PrintWriter socket</span></li>
+                </ul>
+            </div>
+            <div class="box">
+                <h4>🔹 Kiến thức quản lý Client</h4>
+                <ul class="detail-list">
+                    <li><strong>Thread Pool:</strong> Cách cấp cho mỗi Client 1 luồng riêng biệt để không ai phải đợi ai. <br><span class="keyword">java multithreaded server socket Example</span></li>
+                    <li><strong>Observer Pattern:</strong> Kỹ thuật "Phát thanh" (Broadcast). <br><span class="keyword">java chat server broadcast message to all clients</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="subtitle">🛠️ 2. Các bước code chi tiết (Cầm tay chỉ việc)</div>
+        <ul class="detail-list">
+            <li><strong>Bước 1: Khởi tạo Server.</strong> Tạo file <code>ServerMain.java</code>. Dùng <code>ServerSocket server = new ServerSocket(8080);</code> và một vòng lặp <code>while(true)</code> để liên tục <code>server.accept()</code> (đón khách mới).</li>
+            <li><strong>Bước 2: Tạo class <code>ClientHandler</code> (Người phục vụ riêng).</strong> Mỗi khi có 1 Client kết nối (khách vào), tạo ngay 1 đối tượng ClientHandler chạy trên 1 Thread mới để phục vụ riêng khách đó.
+                <br><em>*Lưu ý: Bạn phải tạo một biến <code>List&lt;ClientHandler&gt; clients = new ArrayList&lt;&gt;()</code> trên Server để quản lý danh sách toàn bộ khách đang online.</em>
+            </li>
+            <li><strong>Bước 3: Định nghĩa Giao thức (Protocol).</strong> Quy định nhận gửi chuỗi theo chuẩn.
+                <br>- Nhận: <code>"LOGIN|admin|123"</code> -> Cắt chuỗi theo dấu <code>|</code> để xử lý.
+                <br>- Gửi: Dùng thư viện <strong>Gson (Google)</strong> biến Object Java thành chuỗi JSON gửi đi cho chuyên nghiệp (ví dụ: <code>{"type": "UPDATE_PRICE", "price": 50000}</code>).
+            </li>
+            <li><strong>Bước 4: Viết hàm Broadcast (Tính năng Realtime bắt buộc).</strong>
+                <div class="code-snippet">
+<span class="keyword-java">public void</span> broadcastMessage(<span class="class-java">String</span> message) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword-java">for</span> (ClientHandler client : clients) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword-java">try</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;client.sendMessage(message);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <span class="keyword-java">catch</span> (<span class="class-java">Exception</span> e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted">// Nếu gửi lỗi (client rớt mạng), xóa client đó khỏi danh sách</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clients.remove(client);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+                </div>
+            </li>
+        </ul>
+
+        <div class="warning-box">
+            <h4>⚠️ Cảnh báo chết người:</h4>
+            Đừng bao giờ dùng lệnh đọc (ví dụ <code>in.readLine()</code>) ở luồng chính (Main Thread) của Server, nó sẽ làm Server bị "đứng hình" chờ đợi 1 client gõ phím mà bỏ quên hàng trăm client khác. Phải vứt nó vào Thread riêng!
+        </div>
+    </div>
+
+    <div id="member3" class="role-section role-3">
+        <h2 class="role-title">🎨 Thành viên 3: Chuyên gia Giao diện (Client)</h2>
+        <p><strong>Nhiệm vụ cốt lõi:</strong> Thiết kế mặt tiền của dự án bằng JavaFX. Làm cho nó đẹp, mượt, bấm nút nào "ăn" nút đó và hiển thị tiền nhảy realtime như sàn chứng khoán.</p>
+
+        <div class="subtitle">📚 1. Giáo trình tự học (Search YouTube/Google các từ khóa này)</div>
+        <div class="grid-2">
+            <div class="box">
+                <h4>🔹 Kiến thức UI Cơ bản</h4>
+                <ul class="detail-list">
+                    <li><strong>JavaFX Scene Builder:</strong> Cài đặt phần mềm, cách kéo thả Layout (VBox, HBox, BorderPane). <br><span class="keyword">javafx scene builder tutorial for beginners</span></li>
+                    <li><strong>JavaFX MVC:</strong> Cách tạo file <code>.fxml</code> và file <code>Controller.java</code>. <br><span class="keyword">javafx fxml controller @FXML annotations</span></li>
+                </ul>
+            </div>
+            <div class="box">
+                <h4>🔹 Kiến thức UI Nâng cao</h4>
+                <ul class="detail-list">
+                    <li><strong>TableView:</strong> Cách hiển thị danh sách sản phẩm lên bảng. <br><span class="keyword">javafx tableview populate data</span></li>
+                    <li><strong>Concurrency in UI:</strong> Cập nhật giao diện từ luồng mạng an toàn. <br><span class="keyword">javafx Platform.runLater explained</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="subtitle">🛠️ 2. Các bước code chi tiết (Cầm tay chỉ việc)</div>
+        <ul class="detail-list">
+            <li><strong>Bước 1: Thiết kế giao diện "Tĩnh" bằng Scene Builder.</strong> 
+                <br>Kéo thả 3 file: <code>Login.fxml</code> (ô nhập user/pass), <code>Home.fxml</code> (Bảng danh sách đồ đang đấu giá), <code>AuctionRoom.fxml</code> (Có hình ảnh món đồ, label giá tiền to đùng, ô nhập giá, nút BID).
+            </li>
+            <li><strong>Bước 2: Viết Controller bắt sự kiện.</strong>
+                <div class="code-snippet">
+<span class="keyword-java">@FXML</span> <span class="keyword-java">private</span> <span class="class-java">TextField</span> txtBidAmount;<br>
+<span class="keyword-java">@FXML</span> <span class="keyword-java">private</span> <span class="class-java">Label</span> lblCurrentPrice;<br><br>
+<span class="keyword-java">@FXML</span><br>
+<span class="keyword-java">public void</span> handleBidButton() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="class-java">String</span> amount = txtBidAmount.getText();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted">// Gọi class NetworkClient (của TV2) để gửi lệnh "BID|amount" lên server</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;NetworkClient.send(<span class="string-java">"BID|"</span> + amount);<br>
+}
+                </div>
+            </li>
+            <li><strong>Bước 3: Hiển thị giá Realtime (Cực kỳ quan trọng).</strong> Khi Class NetworkClient nhận được tin nhắn trả về từ Server là "Có người vừa đặt giá mới là 500", bạn KHÔNG được đổi text trực tiếp, mà phải bọc nó lại:
+                <div class="code-snippet">
+<span class="class-java">Platform</span>.runLater(() -> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lblCurrentPrice.setText(<span class="string-java">"500.000 VNĐ"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted">// Thêm hiệu ứng chớp màu xanh ở đây cho đẹp</span><br>
+});
+                </div>
+            </li>
+        </ul>
+
+        <div class="warning-box">
+            <h4>⚠️ Cảnh báo chết người:</h4>
+            Nếu bạn quên dùng <code>Platform.runLater()</code> khi cập nhật giao diện, JavaFX sẽ ném thẳng lỗi <code>NotOnFXApplicationThreadException</code> và văng app ngay lập tức. Hãy xăm câu lệnh này lên tay!
+        </div>
+    </div>
+
+    <div id="member4" class="role-section role-4">
+        <h2 class="role-title">🗄️ Thành viên 4: Quản trị DB, Biểu đồ & Kiểm thử</h2>
+        <p><strong>Nhiệm vụ cốt lõi:</strong> Thiết kế ổ cứng lưu trữ dài hạn (Database), vẽ biểu đồ "đậm chất chuyên nghiệp" và là lá chắn chống lỗi cuối cùng của team (Viết Test).</p>
+
+        <div class="subtitle">📚 1. Giáo trình tự học (Search YouTube/Google các từ khóa này)</div>
+        <div class="grid-2">
+            <div class="box">
+                <h4>🔹 Cơ sở dữ liệu (Database)</h4>
+                <ul class="detail-list">
+                    <li><strong>SQLite & JDBC:</strong> Cách dùng Java kết nối với file <code>.db</code>. <br><span class="keyword">java sqlite jdbc connection example</span></li>
+                    <li><strong>DAO Pattern:</strong> Mô hình tách code Database ra khỏi code Logic. <br><span class="keyword">java Data Access Object pattern implementation</span></li>
+                </ul>
+            </div>
+            <div class="box">
+                <h4>🔹 Tính năng cao cấp (Lấy điểm tuyệt đối)</h4>
+                <ul class="detail-list">
+                    <li><strong>JavaFX LineChart:</strong> Cách vẽ biểu đồ đường cập nhật liên tục. <br><span class="keyword">javafx dynamic line chart realtime data</span></li>
+                    <li><strong>Unit Test:</strong> Viết test tự động. <br><span class="keyword">junit 5 assert equals tutorial</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="subtitle">🛠️ 2. Các bước code chi tiết (Cầm tay chỉ việc)</div>
+        <ul class="detail-list">
+            <li><strong>Bước 1: Thiết kế Database SQLite.</strong> Dùng phần mềm <em>DB Browser for SQLite</em> tạo 1 file <code>auction.db</code>. Tạo bảng <code>Users</code> (id, username, password) và bảng <code>Items</code> (id, name, current_price). Bỏ file này vào thư mục gốc của code.</li>
+            <li><strong>Bước 2: Viết class DAO (Data Access Object).</strong>
+                <div class="code-snippet">
+<span class="keyword-java">public class</span> UserDAO {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword-java">public boolean</span> checkLogin(<span class="class-java">String</span> user, <span class="class-java">String</span> pass) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="class-java">String</span> sql = <span class="string-java">"SELECT * FROM Users WHERE username=? AND password=?"</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted">// Dùng PreparedStatement setString(1, user) vào dấu chấm hỏi</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-muted">// Return true nếu ResultSet.next() có dữ liệu</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+                </div>
+            </li>
+            <li><strong>Bước 3: Code Component Biểu Đồ (LineChart).</strong> Viết 1 file JavaFX tạo ra cái biểu đồ. Trục X là Thời gian (giây), Trục Y là Số tiền. Viết 1 hàm <code>public void addDataPoint(String time, double price)</code>. Khi Server bắn giá mới về, gọi hàm này để biểu đồ vẽ thêm 1 điểm nối đường lên cao.</li>
+            <li><strong>Bước 4: Viết Unit Test.</strong> Viết file <code>AuctionLogicTest.java</code> dùng JUnit. Tạo giả lập 1 User đặt giá thấp hơn giá hiện tại, dùng hàm <code>assertEquals(false, result)</code> để chứng minh hàm của Thành viên 1 viết chạy đúng.</li>
+        </ul>
+
+        <div class="warning-box">
+            <h4>⚠️ Cảnh báo chết người:</h4>
+            Khi viết lệnh SQL, <strong>TUYỆT ĐỐI KHÔNG NỐI CHUỖI</strong> (VD: <code>"SELECT * FROM Users WHERE username = '" + user + "'"</code>). Đây là lỗi bảo mật SQL Injection cơ bản nhất. Phải dùng <code>PreparedStatement</code> với dấu <code>?</code>. Mở Database (Connection/ResultSet) xong nhớ dùng lệnh <code>.close()</code> để không bị treo máy.
+        </div>
+    </div>
+
+    <div id="integration" class="role-section" style="border: 2px solid var(--primary); background: #fff;">
+        <h2 class="role-title" style="color: var(--primary);">🔗 Ma Trận Ráp Nối (Toàn Đội Chú Ý)</h2>
+        <p>Khi từng người đã code xong "đồ chơi" của mình ở tuần 1 và 2. Tuần 3 là lúc ngồi lại ghép thành cỗ máy hoàn chỉnh. Hãy ghép theo đúng thứ tự sau, cấm làm ngược lại!</p>
+
+        <div class="integration-step">
+            <h4>BƯỚC 1: HỌP BÀN GIAO THỨC (TV2 & TV3)</h4>
+            <p><strong>Tại sao:</strong> Client (TV3) và Server (TV2) là 2 chương trình hoàn toàn riêng biệt. Cần thống nhất "ngôn ngữ" để hiểu nhau.</p>
+            <p><strong>Hành động:</strong> Lập 1 file Excel chung. Liệt kê: <br>
+            - Khi bấm nút Bid -> Client gửi: <code>{"action": "BID", "itemId": 1, "amount": 500}</code> <br>
+            - Server xử lý xong trả về: <code>{"status": "SUCCESS", "newPrice": 500}</code></p>
+        </div>
+
+        <div class="integration-step">
+            <h4>BƯỚC 2: GHÉP DATABASE VÀO LÕI (TV4 & TV1)</h4>
+            <p><strong>Tại sao:</strong> Lõi Logic (TV1) cần dữ liệu thật từ ổ cứng để hoạt động.</p>
+            <p><strong>Hành động:</strong> Trong file `AuctionManager` (của TV1), khi khởi động hệ thống (Constructor), hãy gọi hàm <code>ItemDAO.getAllItems()</code> (của TV4) để đổ toàn bộ hàng hóa từ Database lên RAM chuẩn bị đấu giá.</p>
+        </div>
+
+        <div class="integration-step">
+            <h4>BƯỚC 3: GHÉP LÕI VÀO MẠNG (TV1 & TV2)</h4>
+            <p><strong>Tại sao:</strong> Server (TV2) nhận được lệnh "BID", nhưng Server ngu ngơ không biết tính toán, phải đưa cho Lõi Logic (TV1) tính.</p>
+            <p><strong>Hành động:</strong> Trong class `ClientHandler` của TV2, khi nhận được chuỗi đặt giá, hãy gọi hàm <code>auctionManager.placeBid(...)</code> của TV1. Nhận kết quả True/False từ TV1 rồi Server mới Broadcast cho tất cả.</p>
+        </div>
+
+        <div class="integration-step">
+            <h4>BƯỚC 4: GHÉP BIỂU ĐỒ VÀO UI (TV4 & TV3)</h4>
+            <p><strong>Tại sao:</strong> Đưa tính năng lấy điểm cao vào giao diện cuối cùng.</p>
+            <p><strong>Hành động:</strong> TV3 chừa ra 1 khung (Pane) trống trong file FXML Phòng Đấu Giá. TV4 chèn cái <code>LineChart</code> vào đó. Gắn dây sự kiện: Mạng (TV2) báo có giá mới -> Giao diện đổi số (TV3) + Biểu đồ vẽ thêm đường lên (TV4).</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
